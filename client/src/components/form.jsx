@@ -9,11 +9,13 @@ import { useFormik } from "formik";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
+import { BarChart } from "./barChart";
 
 const url = "http://localhost:3001/api/exchangerate";
 
 export const Form = () => {
   const [setData] = useState({});
+  const [barChartVisibility, setBarChartVisibility] = useState(false);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -39,7 +41,8 @@ export const Form = () => {
     onSubmit: () => {
       fetch(url, { method: "GET" })
         .then((data) => data.json())
-        .then((data) => setData(data));
+        .then((data) => setData(data))
+        .then(setBarChartVisibility(true));
     },
   });
 
@@ -109,6 +112,7 @@ export const Form = () => {
           </form>
         </div>
       </div>
+      {barChartVisibility ? <BarChart /> : <></>}
     </div>
   );
 };
